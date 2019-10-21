@@ -1,0 +1,2 @@
+﻿URL GOTO=about:config
+URL GOTO=javascript:gPrefBranch.setIntPref("network.proxy.type",0);

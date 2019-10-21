@@ -1,0 +1,125 @@
+﻿
+
+
+var c;
+c =  'CODE:';
+c = c+ 'clear' + '\n';
+
+c = c+ 'TAB CLOSEALLOTHERS' + '\n';
+c = c+ 'url goto= file:///C:/Users' + '\n';
+c = c+ 'wait seconds=0.2' + '\n';
+
+iimPlay(c)
+
+
+
+function getDefaul() {
+var getAll=window.document.getElementsByClassName('dir')
+var ret;
+for (var i=0;i<getAll.length;i++)
+{
+var profile = getAll[i];
+if (profile.href.indexOf('Public')>0) 
+ {
+   i=i+1
+   profile = getAll[i];
+   ret = profile.href
+  break;
+}
+else if (profile.href.indexOf('Administrator')>0) 
+{
+  ret = profile.href
+  break;
+}
+
+
+}
+return ret;
+}
+var str1 = getDefaul();
+    var str2 = "AppData/Roaming/Mozilla/Firefox";
+ var res = str1.concat(str2).substring(8).replace(/\//g, "\\\\");
+alert(res)
+  var c;
+c =  'CODE:';
+c = c+ "VERSION BUILD=8970419 RECORDER=FX" + "\n";
+c = c+ "TAB CLOSEALLOTHERS" + "\n";
+c = c+ "SET !EXTRACT_TEST_POPUP NO" + "\n";
+c = c+ "SET !REPLAYSPEED FAST " + "\n";
+c = c+ "SET !ERRORIGNORE YES" + "\n";
+c = c+ "SET !TIMEOUT 15" + "\n";
+c = c+ 'url goto= file:///C:/FirefoxPortable_56/FirefoxPortable_56/profiles.ini' + '\n';
+c = c+ 'wait seconds=0.5' + '\n';
+c = c+ "SET !TIMEOUT_STEP 1" + "\n";
+c = c+ "TAG POS=1 TYPE=PRE ATTR=TXT:[General]StartWithLastProfile=1[Profile0]Name=0IsRelative=0P* EXTRACT=TXT" + "\n";
+c = c+ "SET !TIMEOUT 15" + "\n";
+
+c = c+ "SAVEAS TYPE=txt FOLDER="+res+" FILE=profiles.ini" + "\n";
+iimPlay(c)
+
+var c;
+c =  'CODE:';
+c = c+ 'url goto= about:profiles' + '\n';
+c = c+ 'wait seconds=0.2' + '\n';
+
+iimPlay(c)
+// window.location.href="about:profiles"
+function getDefault() {
+var ret;
+var getAll  = window.document.querySelectorAll('#profiles > div');
+for (var i=0;i<getAll.length;i++)
+{
+iimPlay('Code: wait seconds=0.2')
+var profile = getAll[i];
+var profileName = profile.getElementsByTagName('h2')[0];
+if (profile.querySelector('table > tbody > tr > td').innerText.indexOf('yes') > -1) {
+  ret =  profileName.innerText.split(':')[1].substr(1);
+  break;
+}
+}
+return ret;
+}
+var last1=getDefault()
+var number=parseInt(last1)
+if (number<10)
+{
+var first='108'
+var last=String(number)
+var no = parseInt(first+last)
+}
+else if (10<=number<20)
+{
+var first='109'
+var last=String(number.toString().split('').pop())
+var no = parseInt(first+last)
+}
+else if (20<=number<30)
+{
+var first='110'
+var last=String(number.toString().split('').pop())
+var no = parseInt(first+last)
+}
+else if (30<=number<40)
+{
+var first='111'
+var last=String(number.toString().split('').pop())
+var no = parseInt(first+last)
+}
+else if (40<=number<50)
+{
+var first='112'
+var last=String(number.toString().split('').pop())
+var no = parseInt(first+last)
+}
+else if (50<=number<60)
+{
+var first='113'
+var last=String(number.toString().split('').pop())
+var no = parseInt(first+last)
+}
+
+
+
+
+
+
