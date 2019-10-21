@@ -1,4 +1,4 @@
-﻿var connect = true;
+﻿var connect= true;
 
 function checkconnect_navigator() {
     do {
