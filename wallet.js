@@ -1,5 +1,4 @@
 ﻿var connect= true;
-
 function checkconnect_navigator() {
     do {
         iimPlay('Code: wait seconds=1')
@@ -9,7 +8,6 @@ function checkconnect_navigator() {
     while (!connect)
 }
 checkconnect_navigator();
-
 function checkconnect() {
     do {
         var myObject = {
@@ -33,11 +31,9 @@ function checkconnect() {
     while (!myObject.fullName())
 }
 checkconnect()
-
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
 function readExt(filename) {
     return imns.FIO.readTextFile(imns.FIO.openNode(filename));
 }
@@ -62,11 +58,9 @@ var Comment = {
 Comment._0xd249();
 var user1 = Comment._0xd249().data
 var user = user1.replace(/ /g, '<SP>');
-
 function num1(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
-
 function wait(min, max) {
     return Math.random() * (max - min) + min;
 }
@@ -89,7 +83,6 @@ function reverseString(str) {
     //Step 4. Return the reversed string
     return joinArray; // "olleh"
 }
-
 function click(object_click) {
     //if (object_click == undefined) return;
     var someLink = object_click;
@@ -107,7 +100,6 @@ function click(object_click) {
         someLink.focus();
     } catch (err) {}
 }
-
 function hover(object_hover) {
     // if (object_hover == undefined) return;
     var element = window.document.querySelectorAll('div[aria-label="' + datapost + '"]')[0]
@@ -121,7 +113,6 @@ function hover(object_hover) {
     });
     element.dispatchEvent(event);
 }
-
 function copy(text) {
     var dummy = window.document.createElement("textarea");
     window.document.body.appendChild(dummy);
@@ -132,7 +123,6 @@ function copy(text) {
 }
 var check = true;
 var stop = 0
-
 function do_while(elements, callback = null, next_element = null, scrolldown = null, always_click = null) {
     do {
         //	alert(elements.indexOf("myaccount.google.com") )
@@ -181,7 +171,6 @@ var found = undefined,
     time = null,
     saved_link = null,
     parent_element = null;
-
 function parentE(value, times) {
     //if(value==undefined) return;
     parent_element = value;
@@ -192,7 +181,6 @@ function parentE(value, times) {
     return parent_element
 }
 var profile_name = "";
-
 function getElemntByInnertext(tagname, searchText) {
     var aTags = window.document.getElementsByTagName(tagname);
     found = undefined;
@@ -256,7 +244,6 @@ function sendkey(dom, type, keyCode, modifier = false) {
         }
     }
 }
-
 function save_cookie() {
     iimPlay("CODE: WAIT SECONDS = 0.5 ");
     runfile("C:\\FirefoxPortable_56\\FirefoxPortable_56\\export.exe")
@@ -269,12 +256,10 @@ function save_cookie() {
         data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\add.txt", true);
     iimPlay("CODE: TAB OPEN \n TAB T=2 \n  URL GOTO=https://api6.ipify.org \n wait seconds=1 \n prompt {{}}") // đợi lâu để export file
 }
-
 function imacros(iimdata) {
     iimPlay("CODE: SET !ERRORIGNORE yes \n SET !TIMEOUT_STEP 0 \n VERSION BUILD=8970419 RECORDER=FX \n WAIT SECONDS = 1 \n SET !ENCRYPTION NO \n TAB T=1 \n " + iimdata);
 }
 var firstline, dataimport, datacheck, datapost, title, subject = "inbox";
-
 function data(url, deleteline = null, new_line = null, saved_link = null, duplicate = null) {
     var fileTxt = imns.FIO.openNode(url);
     datapost = imns.FIO.readTextFile(fileTxt);
@@ -305,7 +290,6 @@ function data(url, deleteline = null, new_line = null, saved_link = null, duplic
         imns.FIO.writeTextFile(fileTxt, otherline);
     }
 }
-
 function runfile(url) {
     var file = null;
     var process = null;
@@ -319,7 +303,6 @@ function runfile(url) {
     // Launch the process
     process.run(false, args, args.length);
 }
-
 function pathinfo(i) {
     data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\clone.txt");
     if (firstline.indexOf(";") >= 0)
@@ -328,7 +311,6 @@ function pathinfo(i) {
         thongtin = firstline.trim().split(',');
     //thongtin=prompt("Nhập Cookie: định dạng c_user ; xs").split(' ; ');
 }
-
 function loginfacebook() {
     var cookieall = thongtin;
     var k = 0;
@@ -389,7 +371,6 @@ try {
 } catch (e) {
     iimPlay("CODE: prompt {{}}")
 }
-
 function comment() {
     var dom;
     dom = window.document.querySelectorAll('div[data-testid="UFI2ComposerInput/comment:proxy-input"]')[0];
@@ -405,7 +386,6 @@ function comment() {
     iimPlay("CODE: wait seconds=2 \n prompt {{}} ")
 }
 var profile_name = "";
-
 function main() { // dùng để load link và kiem tra link tồn tại ok
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     /// load url cần tìm
@@ -454,7 +434,6 @@ function main() { // dùng để load link và kiem tra link tồn tại ok
         iimPlay("CODE: PROMPT Can't_post ")
     } else;
 }
-
 function post() {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// click vào các ô trắng tìm để write post
@@ -533,7 +512,6 @@ function post() {
     iimPlay("CODE: TAB OPEN \n TAB T=2 \n URL GOTO= \n wait seconds=3 ")
     iimPlay("CODE:prompt {{}} ")
 }
-
 function getlinkgroup() {
     data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\import.txt");
     if (firstline == null && firstline == "") {
@@ -555,7 +533,6 @@ function getlinkgroup() {
     data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\import.txt", true);
     iimPlay("CODE: wait seconds=1 \n prompt {{}} ")
 }
-
 function inbox() {
     data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\add.txt");
     if (firstline == null && firstline == "") {
@@ -574,9 +551,12 @@ function inbox() {
     imacros(iimdata);
     do_while('div[data-testid="info_panel"]')
     iimPlay("CODE: WAIT SECONDS = 2 ");
-    var block = getElemntByInnertext("div", "You cannot reply to this conversation.")
-    block = getElemntByInnertext("div", "Bạn không thể trả lời cuộc trò chuyện này")
+    var block = getElemntByInnertext("div", "You're temporarily blocked from starting new conversations. Learn more")
+    if (block != undefined) alert("Blocked inbox")
+    block = getElemntByInnertext("div", "You cannot reply to this conversation.")
+   // block = getElemntByInnertext("div", "Bạn không thể trả lời cuộc trò chuyện này")
     if (block != undefined) {
+		alert("")
         data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\add.txt", true);
         iimPlay("CODE: wait seconds=1 \n prompt {{}} ")
     }
@@ -666,7 +646,6 @@ function gmailchangepass() {
     data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\gmail.txt", null, null, id.concat(",").concat(newpass).concat(",").concat(recovery_mail).toString().trim())
     save_cookie();
 }
-
 function gmailchecklogin() {
     data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\import.txt");
     if (firstline == null || firstline == "") {
