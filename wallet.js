@@ -568,6 +568,7 @@ function inbox() {
     var keyword = encodeURI("tuyển dung logicstic");
     /// set content để post, phải đặt content trước các lệnh sendkey và click
     data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\data.txt")
+	if(firstline==null || firstline=="" ) alert("no content to inbox");
     copy(datapost);
     iimdata = ' TAB CLOSEALLOTHERS \n URL GOTO= https://www.messenger.com/t/' + id + ' \n WAIT SECONDS = 1'
     imacros(iimdata);
