@@ -1,7 +1,7 @@
 ﻿var connect = true;
 function checkconnect_navigator() {
     do {
-        iimPlay('Code: wait seconds=0')
+        iimPlay('Code: wait seconds=1')
         if (window.navigator.onLine) connect = true;
         else connect = false;
     }
@@ -84,34 +84,22 @@ function reverseString(str) {
     return joinArray; // "olleh"
 }
 function click(object_click) {
-    //if (object_click == undefined) return;
-    var someLink = object_click;
-    try {
-        var simulateClick = function(elem) {
-            // Create our event (with options)
-            var evt = new window.MouseEvent('click', {
-                bubbles: true,
-                cancelable: true,
-                view: window
-            });
-            var canceled = !elem.dispatchEvent(evt);
-        };
-        simulateClick(someLink);
-        someLink.focus();
-    } catch (err) {}
-}
-function hover(object_hover) {
-    // if (object_hover == undefined) return;
-    var element = window.document.querySelectorAll('div[aria-label="' + datapost + '"]')[0]
-    element.addEventListener('mouseover', function() {
-        // console.log('Event triggered');
-    });
-    var event = new window.MouseEvent('mouseover', {
-        'view': window,
-        'bubbles': true,
-        'cancelable': true
-    });
-    element.dispatchEvent(event);
+    if (object_click != undefined) {
+        var someLink = object_click;
+        try {
+            var simulateClick = function(elem) {
+                // Create our event (with options)
+                var evt = new window.MouseEvent('click', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                });
+                var canceled = !elem.dispatchEvent(evt);
+            };
+            simulateClick(someLink);
+            someLink.focus();
+        } catch (err) {}
+    }
 }
 function copy(text) {
     var dummy = window.document.createElement("textarea");
@@ -172,7 +160,6 @@ var found = undefined,
     saved_link = null,
     parent_element = null;
 function parentE(value, times) {
-    //if(value==undefined) return;
     parent_element = value;
     for (var i = 0; i < times; i++) {
         if (parent_element.parentElement)
@@ -224,9 +211,9 @@ function sendkey(dom, type, keyCode, modifier = false) {
     try {
         if (dom != undefined) {
             dom.focus();
-            if (text.length > 1 || typeof keyCode == "number") {
+            if (text.length > 1) {
                 click(dom)
-                iimPlay('Code: wait seconds=0.045')
+                iimPlay('Code: wait seconds=0.45')
                 sendkey(dom, "keypress", "")
             }
             dom.dispatchEvent(keyboardEvent);
@@ -259,7 +246,7 @@ function save_cookie() {
 function imacros(iimdata) {
     iimPlay("CODE: SET !ERRORIGNORE yes \n SET !TIMEOUT_STEP 0 \n VERSION BUILD=8970419 RECORDER=FX \n WAIT SECONDS = 1 \n SET !ENCRYPTION NO \n TAB T=1 \n " + iimdata);
 }
-var firstline, dataimport, datacheck, datapost, title, subject = "inbox";
+var firstline, dataimport, datacheck, datapost, title, subject = "gmailchecklogin";
 function data(url, deleteline = null, new_line = null, saved_link = null, duplicate = null) {
     var fileTxt = imns.FIO.openNode(url);
     datapost = imns.FIO.readTextFile(fileTxt);
@@ -305,13 +292,14 @@ function runfile(url) {
 }
 function pathinfo(i) {
     data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\clone.txt");
-    if (firstline.indexOf(";") >= 0)
-        thongtin = firstline.trim().split(';');
-    else if (firstline.indexOf(",") >= 0)
-        thongtin = firstline.trim().split(',');
+    if (firstline.toString().indexOf(";") >= 0)
+        thongtin = firstline.toString().trim().split(';');
+    else if (firstline.toString().indexOf(",") >= 0)
+        thongtin = firstline.toString().trim().split(',');
+	//alert(thongtin)
     //thongtin=prompt("Nhập Cookie: định dạng c_user ; xs").split(' ; ');
 }
-function loginfacebook() {
+function addcookie() {
     var cookieall = thongtin;
     var k = 0;
     for (k; k < cookieall.length; k++) {
@@ -331,13 +319,33 @@ function loginfacebook() {
     Services.cookies.add(".facebook.com", "/", "xs", userxs, true, true, true, Date.now() + 6000000);
     return cookieService
 }
- data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\data.txt")
-    copy(datapost);
-	 hover(dom);
-       if (window.document.querySelectorAll('div[aria-label="' + datapost + '"]')[0] != undefined) {
-        dom=window.document.querySelectorAll('div[aria-label="' + datapost + '"]')[0]
-		hover(dom);
-		dom=parentE(dom, 1).querySelectorAll('span:nth-child(3)')[0]
-		click(dom)
-        iimPlay("CODE: WAIT SECONDS = 1 ");
+function loginfacebook() {
+iimPlayCode("SET !TIMEOUT 10 \n url goto=fb.com/profile.php \n wait seconds=1 ");
+var name = "";
+if (window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0] != undefined)
+    name = window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0].querySelectorAll('a')[0].innerText
+if (window.location.href.indexOf("checkpoint") >= 0 || name == "") {
+    do {
+        data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\clone.txt");
+        iimPlayCode(" wait seconds=1 ");
+        if (window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0] != undefined)
+            name = window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0].querySelectorAll('a')[0].innerText
+        if (name == "" && firstline != null) {
+            var thongtin = [];
+            pathinfo(1);
+            addcookie();
+            iimPlayCode("SET !TIMEOUT 10 \n url goto=fb.com/profile.php \n wait seconds=1 ");
+            if (window.location.href.indexOf("checkpoint") > 0 || name =="") {
+                data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\clone.txt", true);
+            }
         }
+        a = window.location.href.indexOf("checkpoint") < 0 ? false : true;
+        b = name != "" ? false : true;
+    } while (a || b);
+}
+}
+loginfacebook();
+do {
+    iimPlay("CODE: SET !ERRORIGNORE yes \n SET !TIMEOUT_STEP 2 \n wait seconds=1 \n SET !TIMEOUT 3 \n wait seconds=1");
+    a = window.location.href.indexOf("stackoverflow") >= 0 ? false : true;
+} while (a);

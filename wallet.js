@@ -1,4 +1,6 @@
-﻿var connect= true;
+﻿//https://obfuscator.io
+// ^[ \t]*$\r?\n regular expression, remove empty line, bỏ xóa dòng trắng
+var connect = true;
 function checkconnect_navigator() {
     do {
         iimPlay('Code: wait seconds=1')
@@ -244,22 +246,27 @@ function sendkey(dom, type, keyCode, modifier = false) {
         }
     }
 }
-function save_cookie() {
-    iimPlay("CODE: WAIT SECONDS = 0.5 ");
+function save_cookie(del_clone) {
+    iimPlay("CODE: TAB OPEN \n TAB T=2 \n  URL GOTO=https://api6.ipify.org \n wait seconds=1 ") // đợi lâu để export file
     runfile("C:\\FirefoxPortable_56\\FirefoxPortable_56\\export.exe")
     iimPlay("CODE:  wait seconds=7 ") // đợi lâu để export file
-    data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\import.txt");
-    if (datapost != null && datapost != "")
-        data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\import.txt", true);
-    data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\add.txt");
-    if (datapost != null && datapost != "")
-        data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\add.txt", true);
-    iimPlay("CODE: TAB OPEN \n TAB T=2 \n  URL GOTO=https://api6.ipify.org \n wait seconds=1 \n prompt {{}}") // đợi lâu để export file
+    data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\import.txt", true);
+    /////////////////////////////////////////////////////////////
+    data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\add.txt", true);
+    ////////////////////////////////////////////////////////////////
+    if (del_clone)
+        data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\clone.txt", true);
+    var final_data = gmaildata + "," + firstline
+    if (final_data != undefined) 
+		data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\gmail.txt", null, null,final_data)
+
+    iimPlay("CODE: WAIT SECONDS = 1 \n prompt save_cookie");
 }
 function imacros(iimdata) {
     iimPlay("CODE: SET !ERRORIGNORE yes \n SET !TIMEOUT_STEP 0 \n VERSION BUILD=8970419 RECORDER=FX \n WAIT SECONDS = 1 \n SET !ENCRYPTION NO \n TAB T=1 \n " + iimdata);
 }
-var firstline, dataimport, datacheck, datapost, title, subject = "inbox";
+var firstline = "",
+    dataimport, datacheck, datapost, title, subject = "checklogin";
 function data(url, deleteline = null, new_line = null, saved_link = null, duplicate = null) {
     var fileTxt = imns.FIO.openNode(url);
     datapost = imns.FIO.readTextFile(fileTxt);
@@ -268,7 +275,7 @@ function data(url, deleteline = null, new_line = null, saved_link = null, duplic
     datacheck = dataimport[0].toString().split(",");
     //datacheck.pop(); // last element removed
     //datacheck.shift(); // first element removed
-    firstline = dataimport.slice(0, 1);
+    firstline = dataimport.slice(0, 1).toString();
     title = datacheck[2];
     link = datacheck[1];
     // myArray = imns.FIO.readTextFile(fileTxt).split("\r\n")
@@ -305,13 +312,14 @@ function runfile(url) {
 }
 function pathinfo(i) {
     data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\clone.txt");
-    if (firstline.indexOf(";") >= 0)
-        thongtin = firstline.trim().split(';');
-    else if (firstline.indexOf(",") >= 0)
-        thongtin = firstline.trim().split(',');
+    if (firstline.toString().indexOf(";") >= 0)
+        thongtin = firstline.toString().trim().split(';');
+    else if (firstline.toString().indexOf(",") >= 0)
+        thongtin = firstline.toString().trim().split(',');
+    //alert(thongtin)
     //thongtin=prompt("Nhập Cookie: định dạng c_user ; xs").split(' ; ');
 }
-function loginfacebook() {
+function addcookie() {
     var cookieall = thongtin;
     var k = 0;
     for (k; k < cookieall.length; k++) {
@@ -342,54 +350,58 @@ function loginfacebook() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
-try {
-    if (subject == "post") {
-        data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\import.txt")
-        var original = datacheck;
-        var linkgroup = link;
-        if (link != null && link != undefined) {
-            main();
-            post();
-        } else alert("no link to post")
-    } else if (subject == "comment") {
-        data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\import.txt")
-        var linkgroup = link; // vì để lưu link ra nữa 
-        if (link != null && link != undefined) {
-            main();
-            iimPlay('Code: wait seconds=1')
-            comment();
-        } else alert("no link to comment")
-    } else if (subject == "getlinkgroup") {
-        getlinkgroup();
-    } else if (subject == "inbox") {
-        inbox();
-    } else if (subject == "gmailchangepass") {
-        gmailchangepass();
-    } else if (subject == "gmailchecklogin") {
-        gmailchecklogin();
-    }
-} catch (e) {
-    iimPlay("CODE: prompt {{}}")
+var linkgroup = null;
+if (subject == "post") {
+    data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\import.txt")
+    var original = datacheck;
+    linkgroup = link;
+    if (link != null && link != undefined) {
+        main();
+        post();
+    } else alert("no link to post")
+} else if (subject == "comment") {
+    data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\import.txt")
+    linkgroup = datacheck[3]; // vì để lưu link ra nữa 
+    if (link != null && link != undefined) {
+        main();
+        comment();
+    } else alert("no link to comment")
+} else if (subject == "getlinkgroup") {
+    getlinkgroup();
+} else if (subject == "inbox") {
+    inbox();
+} else if (subject == "gmailchangepass") {
+    gmailchangepass();
+} else if (subject == "gmailchecklogin") {
+    gmailchecklogin();
+} else if (subject == "checklogin") {
+    gmailchecklogin();
+    facebookchecklogin();
 }
 function comment() {
     var dom;
     dom = window.document.querySelectorAll('div[data-testid="UFI2ComposerInput/comment:proxy-input"]')[0];
     click(dom);
     dom = window.document.querySelectorAll('div[data-testid="UFI2ComposerInput/comment:rich-input"]')[0];
-    var txt = "please".trim()
+    var txt = "recruimenting".trim()
     for (var i = 0; i < txt.length; i++) {
         sendkey(dom, "keypress", txt[i])
     }
     // sendkey(dom,"keypress",86,true)  // ctrl V ko có dc
     sendkey(dom, "keydown", 13)
         // sendkey(dom,"keydown",13,true) // ctrl enter
+    data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\import.txt", true);
     iimPlay("CODE: wait seconds=2 \n prompt {{}} ")
 }
 var profile_name = "";
 function main() { // dùng để load link và kiem tra link tồn tại ok
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     /// load url cần tìm
-    iimdata = ' TAB CLOSEALLOTHERS \n ' + ' WAIT SECONDS = ' + wait(1, 2) + '\n' + ' URL GOTO= URL GOTO=' + linkgroup + '\n'
+    if (linkgroup == "pending") {
+        data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\import.txt", true);
+        iimPlay("CODE: wait seconds=1 \n PROMPT Pending ")
+    }
+    iimdata = ' TAB CLOSEALLOTHERS \n ' + ' WAIT SECONDS = ' + wait(1, 2) + '\n' + ' URL GOTO=' + linkgroup + '\n'
         // + ' SET !DATASOURCE C:\\FirefoxPortable_56\\FirefoxPortable_56\\data.txt \n'
         // + ' SET !DATASOURCE_LINE 1 \n'
     imacros(iimdata);
@@ -545,7 +557,7 @@ function inbox() {
     var keyword = encodeURI("tuyển dung logicstic");
     /// set content để post, phải đặt content trước các lệnh sendkey và click
     data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\data.txt")
-	if(firstline==null || firstline=="" ) alert("no content to inbox");
+    if (firstline == null || firstline == "") alert("no content to inbox");
     copy(datapost);
     iimdata = ' TAB CLOSEALLOTHERS \n URL GOTO= https://www.messenger.com/t/' + id + ' \n WAIT SECONDS = 1'
     imacros(iimdata);
@@ -554,9 +566,9 @@ function inbox() {
     var block = getElemntByInnertext("div", "You're temporarily blocked from starting new conversations. Learn more")
     if (block != undefined) alert("Blocked inbox")
     block = getElemntByInnertext("div", "You cannot reply to this conversation.")
-   // block = getElemntByInnertext("div", "Bạn không thể trả lời cuộc trò chuyện này")
+        // block = getElemntByInnertext("div", "Bạn không thể trả lời cuộc trò chuyện này")
     if (block != undefined) {
-		alert("")
+        alert("")
         data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\add.txt", true);
         iimPlay("CODE: wait seconds=1 \n prompt {{}} ")
     }
@@ -644,7 +656,7 @@ function gmailchangepass() {
     }
     iimPlay("CODE: WAIT SECONDS = 0.5 ");
     data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\gmail.txt", null, null, id.concat(",").concat(newpass).concat(",").concat(recovery_mail).toString().trim())
-    save_cookie();
+    ookie();
 }
 function gmailchecklogin() {
     data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\import.txt");
@@ -652,6 +664,7 @@ function gmailchecklogin() {
         alert("no data in import file")
         return;
     }
+    gmaildata = firstline;
     if (firstline.toString().indexOf(",") >= 0) {
         id = firstline.toString().split(',')[0]
         if (id.indexOf('@') >= 0) id = id.split('@')[0];
@@ -680,6 +693,39 @@ function gmailchecklogin() {
     var newpass = reverseString(id);
     if (pass != newpass) alert("WRONG PASS");
     var mail = getElemntByInnertext("div", id.toLowerCase() + "@gmail.com")
-    if (mail == undefined) data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\gmail.txt", null, null, firstline)
-    save_cookie();
+        //ookie();
+}
+function facebookchecklogin() {
+    iimPlayCode("SET !TIMEOUT 10 \n url goto=fb.com/profile.php \n wait seconds=1 ");
+    var name = "";
+    firstline = ""
+    var login = true;
+    if (window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0] != undefined)
+        name = window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0].querySelectorAll('a')[0].innerText
+    if (window.location.href.indexOf("checkpoint") >= 0 || name == "") {
+        do {
+            data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\clone.txt");
+            if (firstline == null) alert("no clone")
+            iimPlayCode(" wait seconds=1 ");
+            if (window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0] != undefined)
+                name = window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0].querySelectorAll('a')[0].innerText
+            if (name == "" && firstline != null) {
+                var thongtin = [];
+                pathinfo(1);
+                addcookie();
+                iimPlayCode("SET !TIMEOUT 10 \n url goto=fb.com/profile.php  ");
+                if (window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0] != undefined)
+                    name = window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0].querySelectorAll('a')[0].innerText
+                iimPlayCode(" wait seconds=2")
+                if (window.location.href.indexOf("checkpoint") >= 0 || name == "") {
+                    data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\clone.txt", true);
+                }
+            }
+            login = name != "" ? false : true;
+            //  if(login==false) data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\clone.txt", true);
+        } while (login);
+    }
+    if (login == false || firstline == "") var del_clone = true
+	//alert(del_clone)
+    save_cookie(del_clone);
 }
