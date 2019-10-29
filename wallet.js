@@ -1,9 +1,24 @@
 ﻿//https://obfuscator.io
 // ^[ \t]*$\r?\n regular expression, remove empty line, bỏ xóa dòng trắng
+function runfile(url, args) {
+    var file = null;
+    var process = null;
+    if (args == null) args = [""]
+    // create an nsIFile for the executable
+    file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsIFile);
+    file.initWithPath(url);
+    // create an nsIProcess
+    process = Components.classes["@mozilla.org/process/util;1"].createInstance(Components.interfaces.nsIProcess);
+    process.init(file);
+    // Launch the process
+    process.run(false, args, args.length);
+}
+//runfile("C:\\Users\\Admin\\source\\repos\\test2\\test2\\bin\\Release\\auth.exe",["5TZC Y6EG JBHE P5IE 3MOK KQNT KCTL 4EFC"])
 var connect = true;
 
 function checkconnect_navigator() {
     do {
+        runfile("C:\\FirefoxPortable_56\\FirefoxPortable_56\\ip.exe")
         iimPlay('Code: wait seconds=1')
         if (window.navigator.onLine) connect = true;
         else connect = false;
@@ -14,6 +29,7 @@ checkconnect_navigator();
 
 function checkconnect() {
     do {
+        runfile("C:\\FirefoxPortable_56\\FirefoxPortable_56\\ip.exe")
         var myObject = {
             firstName: true,
             lastName: false,
@@ -261,7 +277,7 @@ function sendkey(dom, type, keyCode, modifier = false) {
 
 function save_cookie(del_clone, del_gmail) {
     iimPlay("CODE: TAB OPEN \n TAB T=2 \n  URL GOTO=https://api6.ipify.org \n wait seconds=1 ") // đợi lâu để export file
-    runfile("C:\\FirefoxPortable_56\\FirefoxPortable_56\\export.exe")
+    file("C:\\FirefoxPortable_56\\FirefoxPortable_56\\export.exe")
     iimPlay("CODE:  wait seconds=7 ") // đợi lâu để export file
     if (del_gmail != true)
         data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\import.txt", true);
@@ -274,7 +290,6 @@ function save_cookie(del_clone, del_gmail) {
     var final_data = gmaildata + "," + firstline
     if (final_data != undefined)
         data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\gmail.txt", null, null, final_data)
-
     iimPlay("CODE: WAIT SECONDS = 1 \n prompt save_cookie");
 }
 
@@ -282,7 +297,7 @@ function imacros(iimdata) {
     iimPlay("CODE: SET !ERRORIGNORE yes \n SET !TIMEOUT_STEP 0 \n VERSION BUILD=8970419 RECORDER=FX \n WAIT SECONDS = 1 \n SET !ENCRYPTION NO \n TAB T=1 \n " + iimdata);
 }
 var firstline = "",
-    dataimport, datacheck, datapost, title, subject = "checklogin";
+    dataimport, datacheck, datapost, title, subject = "facebookchecklogin";
 
 function data(url, deleteline = null, new_line = null, saved_link = null, duplicate = null) {
     var fileTxt = imns.FIO.openNode(url);
@@ -315,31 +330,12 @@ function data(url, deleteline = null, new_line = null, saved_link = null, duplic
     }
 }
 
-function runfile(url) {
-    var file = null;
-    var process = null;
-    var args = [""];
-    // create an nsIFile for the executable
-    file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsIFile);
-    file.initWithPath(url);
-    // create an nsIProcess
-    process = Components.classes["@mozilla.org/process/util;1"].createInstance(Components.interfaces.nsIProcess);
-    process.init(file);
-    // Launch the process
-    process.run(false, args, args.length);
-}
-
-function pathinfo(i) {
+function addcookie(cookie) {
     data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\clone.txt");
     if (firstline.toString().indexOf(";") >= 0)
         thongtin = firstline.toString().trim().split(';');
     else if (firstline.toString().indexOf(",") >= 0)
         thongtin = firstline.toString().trim().split(',');
-    //alert(thongtin)
-    //thongtin=prompt("Nhập Cookie: định dạng c_user ; xs").split(' ; ');
-}
-
-function addcookie() {
     if (thongtin == "" || thongtin == undefined) return;
     var cookieall = thongtin;
     var k = 0;
@@ -351,7 +347,12 @@ function addcookie() {
             var userxs = cookieall[k].split('=')[1];
             var userxs = userxs.replace(/:/g, "%3A");
         }
+        if (!cookieall[k].match(/[a-z]/i)) {
+            var userid = cookieall[k];
+        }
     }
+alert(userid)
+    if (!cookie) return;
     var cookieManager = Components.classes["@mozilla.org/cookiemanager;1"].getService(Components.interfaces.nsICookieManager);
     Components.utils.import("resource://gre/modules/Services.jsm");
     var cookieService = Services.cookies;
@@ -397,6 +398,8 @@ if (subject == "post") {
     gmailchecklogin();
 } else if (subject == "checklogin") {
     gmailchecklogin();
+    facebookchecklogin();
+}else if (subject == "facebookchecklogin") {
     facebookchecklogin();
 }
 
@@ -555,9 +558,12 @@ function getlinkgroup() {
         alert("no data in import file")
         return;
     }
-    if (firstline.toString().indexOf(",") >= 0) firstline = firstline.toString().split(',')[0]
-    var profile = firstline;
-    var keyword = encodeURI("robot");
+    var profile = "",
+        keyword = "";
+    if (firstline.toString().indexOf(",") >= 0) {
+        profile = firstline.toString().split(',')[0]
+        keyword = encodeURI(firstline.toString().split(',')[1])
+    } else profile = firstline.toString()
     iimdata = ' TAB CLOSEALLOTHERS \n ' + ' WAIT SECONDS = ' + wait(1, 2) + '\n' + ' URL GOTO= https://www.facebook.com/search/groups/?q=' + keyword + '&epa  \n TAG POS=1 TYPE=SPAN ATTR=TXT:My<SP>groups \n FILEDELETE NAME=C:\\FirefoxPortable_56\\FirefoxPortable_56\\' + profile + '.txt \n SET !EXTRACT NULL  \n   SAVEAS TYPE=EXTRACT FOLDER=C:\\FirefoxPortable_56\\FirefoxPortable_56 FILE=' + profile + '.txt'
     imacros(iimdata);
     do_while('div[id="browse_end_of_results_footer"]', null, null, true)
@@ -722,44 +728,48 @@ function gmailchecklogin() {
     if (id.indexOf("@") >= 0) var mail = getElemntByInnertext("div", id.toLowerCase())
     else mail = getElemntByInnertext("div", id.toLowerCase() + "@gmail.com")
     if (mail == undefined) alert("WRONG MAIL");
+	iimdata = ' url goto=https://mail.google.com/mail/u/0 \n TAB OPEN  \n TAB T=2 '
+    imacros(iimdata);
     //ookie();
 }
 var thongtin = "";
 
 function facebookchecklogin() {
-    iimPlayCode(" url goto=https://mail.google.com/mail/u/0 \n TAB OPEN  \n TAB T=2 \n url goto=fb.com/profile.php \n wait seconds=1 ");
+    iimPlayCode("url goto=https://www.facebook.com/login \n wait seconds=1 ");
     var name = ""
     firstline = ""
     var login = true;
-    var login_cookie = false;
-    if (login_cookie) {
-        if (window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0] != undefined)
-            name = window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0].querySelectorAll('a')[0].innerText
-        if (window.location.href.indexOf("checkpoint") >= 0 || name == "") {
-            do {
-                data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\clone.txt");
-                if (firstline == null) alert("no clone")
-                iimPlayCode(" wait seconds=1 ");
+    data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\clone.txt");
+    if (window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0] != undefined)
+        name = window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0].querySelectorAll('a')[0].innerText
+    if (window.location.href.indexOf("checkpoint") >= 0 || name == "") {
+        do {
+            if (firstline == null) alert("no clone")
+            iimPlayCode(" wait seconds=1 ");
+            if (window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0] != undefined)
+                name = window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0].querySelectorAll('a')[0].innerText
+            if (name == "" && firstline != null) {
+                var thongtin = [];
+                addcookie(false);
+                var textbox_id = window.document.getElementById("email")
+                sendkey(textbox_id, "keypress", userid)
+				 iimPlayCode(" wait seconds=1")
+                var textbox_pass = window.document.getElementById("pass")
+                sendkey(textbox_id, "keypress", "ngovanhung1")
+				iimPlayCode(" wait seconds=1")
+				sendkey(textbox_id, "keydown", 13)
+                iimPlayCode("SET !TIMEOUT 10 \n url goto=fb.com/profile.php  ");
                 if (window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0] != undefined)
                     name = window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0].querySelectorAll('a')[0].innerText
-                if (name == "" && firstline != null) {
-                    var thongtin = [];
-                    pathinfo(1);
-                    addcookie();
-                    iimPlayCode("SET !TIMEOUT 10 \n url goto=fb.com/profile.php  ");
-                    if (window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0] != undefined)
-                        name = window.document.querySelectorAll('span[data-testid="profile_name_in_profile_page"]')[0].querySelectorAll('a')[0].innerText
-                    iimPlayCode(" wait seconds=2")
-                    if (window.location.href.indexOf("checkpoint") >= 0 || name == "") {
-                        data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\clone.txt", true);
-                    }
+                iimPlayCode(" wait seconds=2")
+                if (window.location.href.indexOf("checkpoint") >= 0 || name == "") {
+                    data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\clone.txt", true);
                 }
-                login = name != "" ? false : true;
-                //  if(login==false) data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\clone.txt", true);
-            } while (login);
-        }
+            }
+            login = name != "" ? false : true;
+            //  if(login==false) data("C:\\FirefoxPortable_56\\FirefoxPortable_56\\clone.txt", true);ff
+        } while (login);
     }
-
     if (login == false || firstline == "") var del_clone = true
     do {
         iimPlay("CODE: SET !ERRORIGNORE yes \n SET !TIMEOUT_STEP 2 \n wait seconds=1 \n SET !TIMEOUT 3 \n wait seconds=1");
